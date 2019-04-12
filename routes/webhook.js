@@ -1,5 +1,6 @@
 'use strict';
-// const PAGE_ACCESS_TOKEN = require('../secrets/webhookConfig');
+const request = require('request')
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 require('dotenv').config({ path: 'credentials.env' });
 
@@ -29,6 +30,12 @@ app.post('/', (req, res) => {
         // Get the sender PSID
         let sender_psid = webhook_event.sender.id;
         console.log('Sender PSID: ' + sender_psid);
+
+        if (webhook_event.message) {
+            handleMessage(sender_psid, webhook_event.message)
+        } else if (webhook_event.postback) {
+            handlePostback(sender_psid, webhook_event.postback)
+        }
     });
 
     // Returns a '200 OK' response to all requests
@@ -77,7 +84,14 @@ app.get('/webhook/policy', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+    let response 
+    if (received_message.text) {
+        response = {
+            "text": `Hello World! You sent me ${recived_message.text}`
+        }
+    }
 
+    callSendAPI(sender_psid, response)
 }
 
 // Handles messaging_postbacks events
@@ -87,7 +101,25 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+    let request_body = {
+        recipient: {
+            id: sender_psid
+        },
+        message: response
+    }
 
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+      }, (err, res, body) => {
+        if (!err) {
+          console.log('message sent!')
+        } else {
+          console.error("Unable to send message:" + err);
+        }  
+    })
 }
 
 module.exports = app
