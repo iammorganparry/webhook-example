@@ -1,6 +1,6 @@
 'use strict';
 
-// const PAGE_ACCESS_TOKEN = 'EAARyYlZAfrqMBAJZBtVtyCIVmhg0TdgteTyF824uUrUtHZCw8p4YNrBhFyI0Y3drIFIFv5rSfk6lXGuC89ZB9ZAAjNMW5PFfXJAG0e6AB1uUEZBczodrO7Qyto8aEr5NwJbjsM3cEl1A1tIIdgNwUXOjZA5HcqsQmrmVe0kwTh0SgZDZD';
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || require();
 
 require('dotenv').config({ path: 'credentials.env' });
 
@@ -110,7 +110,7 @@ function callSendAPI(sender_psid, response) {
 
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": 'EAARyYlZAfrqMBAPG5G8N2uHc21pU2mVZCfADij4NQOziZCc1LuOZCZAv44ZAYDNZA14wHxLGfzm8ByFa0VHFLBxFxXXdMkMB0qplET0IUKatLFvhUcmKZAjveQU5WKrj4iFAHpTuQw9KeKP2vFLZCvckcEQSH948YrIx7p9ZBziK5ZC4QZDZD' },
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
       }, (err, res, body) => {
