@@ -102,42 +102,40 @@ function handleMessage(sender_psid, received_message) {
 
 function buildTemplate (sender_psid, template_object) {
   let response = {
-    recipient:{
-      id: sender_psid
-    },
-    message:{
-      attachment:{
-        type: "template",
-        payload:{
-          template_type:"generic",
-          elements: [
-            {
-              title: template_object.title,
-              image_url: template_object.image,
-              subtitle: template_object.subtitle,
-              default_action: {
+    attachment: {
+      type: "template",
+      payload: {
+        template_type: "generic",
+        elements: [
+          {
+            title: template_object.title,
+            image_url: template_object.image,
+            subtitle: template_object.subtitle,
+            default_action: {
+              type: "web_url",
+              url: template_object.client_url,
+              webview_height_ratio: "tall",
+            },
+            buttons: [
+              {
                 type: "web_url",
                 url: template_object.client_url,
-                webview_height_ratio: "tall",
+                title: "View Website"
               },
-              buttons:[
-                {
-                  type:"web_url",
-                  url:template_object.client_url,
-                  title:"View Website"
-                },
-                {
-                  type:"postback",
-                  title:"Thank You!",
-                  payload:"Thank You"
-                }              
-              ]      
-            }
-          ] 
+              {
+                type: "postback",
+                title: "Thank You!",
+                payload: "Thank You"
+              }
+            ]
+          },
+          {
+            title: `Code: ${template_object.discount_code}`
           }
-        }
+        ]
       }
     }
+  }
   return response
 }
 
