@@ -7,13 +7,15 @@ block body
     .container
       h1 #{title}
       p
-      | This is a boilerplate example of the Send To Messenger CTA Flow. Below are three fake merchant profiles with their own 'Sent To Messenger Buttons', each one will send a discount code from their respective facebook pages
+      | This is a boilerplate example of the Send To Messenger CTA Flow amd Proof of Concept. Below are three fake merchant profiles with their own 'Send To Messenger Buttons', each one will send a discount code from their respective facebook pages
   .container
     .row
       .col-md-4
         h2 Ross Sells Socks
+        img.img-thumbnail(src="https://i.etsystatic.com/11645494/r/il/d33585/1733888773/il_794xN.1733888773_2mzg.jpg", alt="", srcset="", width="300")
+        h3 Get 10% Off!
         p
-          | Send your discount code to Facebook Messenger!
+          | Send your 10% discount code to Facebook Messenger!
         //- fb:login-button(scope="public_profile,email" onlogin="checkLoginState();") Login With Facebook
 
         div(class="fb-send-to-messenger" 
@@ -26,8 +28,10 @@ block body
         size="large")
       .col-md-4
         h2 Lukes FINE Wares
+        img.img-thumbnail(src="https://cdn.shopify.com/s/files/1/0093/5442/products/Burgus-Plus-15oz-Selvedge-Denim-Jeans-FrontStand-1_2000x.jpg", alt="", srcset="",width="300")
+        h3 Get 10% Off!
         p
-          | Send your discount code to Facebook Messenger!
+          | Send your 10% discount code to Facebook Messenger!
         p
           div(class="fb-send-to-messenger" 
         messenger_app_id="1251666588315299" 
@@ -39,8 +43,10 @@ block body
         size="large")
       .col-md-4
         h2 Chris' Smoke Shack
+        img.img-thumbnail(src="https://www.bestwaywholesale.co.uk/img/products/1000/7/5000143569117.jpg", alt="", srcset="",width="300")
+        h3 Get 10% Off!
         p
-          | Send your discount code to Facebook Messenger!
+          | Send your 10% discount code to Facebook Messenger!
         p
           //- facebook page id = page_id
         div(class="fb-send-to-messenger" 
