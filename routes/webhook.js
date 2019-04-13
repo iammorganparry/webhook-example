@@ -35,7 +35,7 @@ app.post('/', (req, res) => {
             handleMessage(sender_psid, webhook_event.message)
         } else if (webhook_event.postback) {
             handlePostback(sender_psid, webhook_event.postback)
-        } else if (webhook_event.message_optin) {
+        } else if (webhook_event.optin) {
           console.log('We have a optin!')
           handleDiscountCodeMessage(sender_psid, webhook_event.optin)
         }
