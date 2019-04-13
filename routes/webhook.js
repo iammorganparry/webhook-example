@@ -36,7 +36,8 @@ app.post('/', (req, res) => {
         } else if (webhook_event.postback) {
             handlePostback(sender_psid, webhook_event.postback)
         } else if (webhook_event.message_optin) {
-          handleDiscountCodeMessage(sender_psid, webhook_event.message_optin)
+          console.log('We have a optin!')
+          handleDiscountCodeMessage(sender_psid, webhook_event.optin)
         }
     });
 
@@ -124,11 +125,30 @@ async function callSendAPI(sender_psid, response) {
   }
 }
 
-async function handleDiscountCodeMessage (sender_psid, response) {
+async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
   let response 
-    if (received_message.text) {
+  let message = ''
+  // recieved_optin.ref -- is the app id we pass through from the CTA
+  if (recieved_optin.ref) {
+    switch (recieved_optin.ref) {
+        // merchant 1
+        case '0001':
+          message = 'Hello from CTA 1'
+          break;
+        // merchant 2
+        case '0002':
+        message = 'Hello from CTA 2'
+          break;
+        // merchant 3
+        case '0003':
+        message = 'Hello from CTA 3'
+          break;
+      
+        default:
+          break;
+      }
         response = {
-            "text": `Hello World! You sent me ${received_message.text}`
+            "text": message
         }
     }
 
