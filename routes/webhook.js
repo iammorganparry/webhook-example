@@ -175,17 +175,17 @@ async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
         // merchant 1
         case '0001':
         response = buildTemplate(sender_psid, merchants.rossSocks)
-        token = ROSS_ACCESS_TOKEN
+        token = process.env.ROSS_ACCESS_TOKEN
           break;
         // merchant 2
         case '0002':
         response = buildTemplate(sender_psid, merchants.LukesWares)
-        token = LUKE_ACCESS_TOKEN
+        token = process.env.LUKE_ACCESS_TOKEN
           break;
         // merchant 3
         case '0003':
         response = buildTemplate(sender_psid, merchants.chrisSmokes)
-        token = CHRIS_ACCESS_TOKEN
+        token = process.env.CHRIS_ACCESS_TOKEN
           break;
         default:
           break;
