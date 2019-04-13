@@ -1,34 +1,64 @@
 extends _bootstrap
 append styles
-	// Custom styles for this template
-	//- link(href='../public/stylesheets/jumbotron.css', rel='stylesheet')
+  // Custom styles for this template
+  //- link(href='../public/stylesheets/jumbotron.css', rel='stylesheet')
 block body
-	.jumbotron
-		.container
-			h1 #{title}
-			p
-				| This is a boilerplate example of the Send To Messenger CTA Flow. Below are three fake merchant profiles with their own 'Sent To Messenger Buttons', each one will send a discount code from their respective facebook pages
-	.container
-		.row
-			.col-md-4
-				h2 Ross Sells Socks
-				p
-					| Send your discount code to Facebook Messenger!
-				p
-					a.btn.btn-default(href='#', role='button') Send To Messenger »
-			.col-md-4
-				h2 Lukes FINE Wares
-				p
-					| Send your discount code to Facebook Messenger!
-				p
-					a.btn.btn-default(href='#', role='button') Send To Messenger  »
-			.col-md-4
-				h2 Chris' Smoke Shack
-				p
-					| Send your discount code to Facebook Messenger!
-				p
-					a.btn.btn-default(href='#', role='button') Send To Messenger »
-		hr
-		footer
-			p © Company 2014
-	block content
+  .jumbotron
+    .container
+      h1 #{title}
+      p
+        | This is a boilerplate example of the Send To Messenger CTA Flow. Below are three fake merchant profiles with their own 'Sent To Messenger Buttons', each one will send a discount code from their respective facebook pages
+  .container
+    .row
+      .col-md-4
+        h2 Ross Sells Socks
+        p
+          | Send your discount code to Facebook Messenger!
+        fb:login-button(scope="public_profile,email" onlogin="checkLoginState();") Login With Facebook
+          div(class="fb-send-to-messenger" 
+          messenger_app_id="1251666588315299" 
+          page_id="1234"
+          cta_text="SEND_THIS_TO_ME" 
+          data-ref="&merchantId=1234" 
+          color="blue" 
+          size="standard")
+      .col-md-4
+        h2 Lukes FINE Wares
+        p
+          | Send your discount code to Facebook Messenger!
+        p
+          a.btn.btn-default(href='#', role='button') Send To Messenger  »
+      .col-md-4
+        h2 Chris' Smoke Shack
+        p
+          | Send your discount code to Facebook Messenger!
+        p
+          a.btn.btn-default(href='#', role='button') Send To Messenger »
+    hr
+    script.
+      (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'))
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1251666588315299',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v3.2'
+          })
+
+        FB.AppEvents.logPageView()
+        }
+        function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          console.log(response)
+          //- statusChangeCallback(response);
+        });
+      }
+footer
+  p © Company 2014
+  block content
