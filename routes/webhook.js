@@ -110,7 +110,7 @@ function buildTemplate (sender_psid, template_object) {
           {
             subtitle: `Your Discount Code From ${template_object.title}`,
             image_url: template_object.image,
-            title: template_object.discount_code,
+            title: `CODE: ${template_object.discount_code}`,
             default_action: {
               type: "web_url",
               url: template_object.client_url,
