@@ -9,6 +9,7 @@ const
   axios = require('axios'),
   express = require('express'),
   bodyParser = require('body-parser'),
+  merchants = require('../config/clientTemplates'),
   app = express().use(bodyParser.json()); // creates express http server
 
 // Creates the endpoint for our webhook
@@ -97,6 +98,52 @@ function handleMessage(sender_psid, received_message) {
     callSendAPI(sender_psid, response)
 }
 
+// Create the template and return response 
+
+function buildTemplate (sender_psid, template_object) {
+  let response = {
+    recipient:{
+      id: sender_psid
+    },
+    message:{
+      attachment:{
+        type: "template",
+        payload:{
+          template_type:"generic",
+          elements: [
+            {
+              title: template_object.title,
+              image_url: template_object.image,
+              subtitle: template_object.subtitle,
+              default_action: {
+                type: "web_url",
+                url: template_object.client_url,
+                webview_height_ratio: "tall",
+              },
+              buttons:[
+                {
+                  type:"web_url",
+                  url:template_object.client_url,
+                  title:"View Website"
+                },
+                {
+                  type:"postback",
+                  title:"Thank You!",
+                  payload:"Thank You"
+                }              
+              ]      
+            },
+            {
+              title: template_object.discount_code
+            }
+          ] 
+          }
+        }
+      }
+    }
+  return response
+}
+
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload
@@ -127,29 +174,25 @@ async function callSendAPI(sender_psid, response) {
 
 async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
   let response 
-  let message = ''
+  let template
   // recieved_optin.ref -- is the app id we pass through from the CTA
   if (recieved_optin.ref) {
     switch (recieved_optin.ref) {
         // merchant 1
         case '0001':
-          message = 'Hello from CTA 1'
+          response = buildTemplate(sender_psid, merchants.rossSocks)
           break;
         // merchant 2
         case '0002':
-        message = 'Hello from CTA 2'
+        response = buildTemplate(sender_psid, merchants.LukesWares)
           break;
         // merchant 3
         case '0003':
-        message = 'Hello from CTA 3'
+        response = buildTemplate(sender_psid, merchants.chrisSmokes)
           break;
-      
         default:
           break;
       }
-        response = {
-            "text": message
-        }
     }
 
     callSendAPI(sender_psid, response)
