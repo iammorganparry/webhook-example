@@ -205,11 +205,10 @@ async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
 }
 
 function assignToken (client_id) {
-
   for (const merchant in merchants) {
     if (merchants.hasOwnProperty(merchant)) {
       for (const item in merchants[merchant]) {
-        if (merchants[merchant][item] === client_id) {
+        if (merchants[merchant].id === client_id) {
           return merchants[merchant].token 
         }
       }
