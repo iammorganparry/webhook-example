@@ -149,7 +149,8 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 // Sends response messages via the Send API
-async function callSendAPI(sender_psid, response) {
+async function callSendAPI (sender_psid, response, token) {
+    let access_token = token ? access_token = token : PAGE_ACCESS_TOKEN
     let request_body = {
         recipient: {
             id: sender_psid
@@ -157,7 +158,7 @@ async function callSendAPI(sender_psid, response) {
         message: response
     }
   try {
-    const response = await axios.post(`https://graph.facebook.com/v2.6/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, request_body)
+    const response = await axios.post(`https://graph.facebook.com/v2.6/me/messages?access_token=${access_token}`, request_body)
     console.log('Message Sent', response)
   } catch (error) {
     console.log(error)
@@ -167,27 +168,31 @@ async function callSendAPI(sender_psid, response) {
 async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
   let response 
   let template
+  let token = ''
   // recieved_optin.ref -- is the app id we pass through from the CTA
   if (recieved_optin.ref) {
     switch (recieved_optin.ref) {
         // merchant 1
         case '0001':
-          response = buildTemplate(sender_psid, merchants.rossSocks)
+        response = buildTemplate(sender_psid, merchants.rossSocks)
+        token = ROSS_ACCESS_TOKEN
           break;
         // merchant 2
         case '0002':
         response = buildTemplate(sender_psid, merchants.LukesWares)
+        token = LUKE_ACCESS_TOKEN
           break;
         // merchant 3
         case '0003':
         response = buildTemplate(sender_psid, merchants.chrisSmokes)
+        token = CHRIS_ACCESS_TOKEN
           break;
         default:
           break;
       }
     }
 
-    callSendAPI(sender_psid, response)
+    callSendAPI(sender_psid, response, token)
 }
 
 module.exports = app
