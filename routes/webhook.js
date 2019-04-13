@@ -189,7 +189,7 @@ async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
         // merchant 2
         case '0002':
         response = buildTemplate(sender_psid, merchants.lukesWares)
-        token = merchants.LukesWares.access_token
+        token = merchants.lukesWares.access_token
           break;
         // merchant 3
         case '0003':
