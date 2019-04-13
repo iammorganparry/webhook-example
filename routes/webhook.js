@@ -29,13 +29,14 @@ app.post('/', (req, res) => {
       console.log(webhook_event);
 
         // Get the sender PSID
-        let sender_psid = webhook_event.sender.id;
+      let sender_psid = webhook_event.sender.id;
+      let client_id = webhook_event.recipient.id
         console.log('Sender PSID: ' + sender_psid);
 
         if (webhook_event.message) {
-            handleMessage(sender_psid, webhook_event.message)
+            handleMessage(sender_psid, webhook_event.message, client_id)
         } else if (webhook_event.postback) {
-            handlePostback(sender_psid, webhook_event.postback)
+            handlePostback(sender_psid, webhook_event.postback, client_id)
         } else if (webhook_event.optin) {
           console.log('We have a optin!')
           handleDiscountCodeMessage(sender_psid, webhook_event.optin)
@@ -88,14 +89,16 @@ app.get('/webhook/policy', (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-    let response 
+  let response 
+  let token = assignToken(client_id)
+
     if (received_message.text) {
         response = {
             "text": `Hello World! You sent me ${received_message.text}`
         }
     }
 
-    callSendAPI(sender_psid, response)
+    callSendAPI(sender_psid, response, token)
 }
 
 // Create the template and return response 
@@ -137,15 +140,16 @@ function buildTemplate (sender_psid, template_object) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+function handlePostback(sender_psid, received_postback, client_id) {
   let payload = received_postback.payload
   let response = {}
+  let token = assignToken(client_id)
   if (payload === 'Thank You') {
     response = {
       text: 'Enjoy your discount! Buy responsibly ;)'
     }
   }
-  callSendAPI(sender_psid, response)
+  callSendAPI(sender_psid, response, token)
 }
 
 // Sends response messages via the Send API
@@ -180,17 +184,17 @@ async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
         // merchant 1
         case '0001':
         response = buildTemplate(sender_psid, merchants.rossSocks)
-        token = process.env.ROSS_ACCESS_TOKEN
+        token = merchants.rossSocks.token
           break;
         // merchant 2
         case '0002':
-        response = buildTemplate(sender_psid, merchants.LukesWares)
-        token = process.env.LUKE_ACCESS_TOKEN
+        response = buildTemplate(sender_psid, merchants.lukesWares)
+        token = merchants.LukesWares.access_token
           break;
         // merchant 3
         case '0003':
         response = buildTemplate(sender_psid, merchants.chrisSmokes)
-        token = process.env.CHRIS_ACCESS_TOKEN
+        token = merchants.chrisSmokes.token
           break;
         default:
           break;
@@ -198,6 +202,19 @@ async function handleDiscountCodeMessage (sender_psid, recieved_optin) {
     }
 
     callSendAPI(sender_psid, response, token)
+}
+
+function assignToken (client_id) {
+
+  for (const merchant in merchants) {
+    if (merchants.hasOwnProperty(merchant)) {
+      for (const item in merchants[merchant]) {
+        if (merchants[merchant][item] === client_id) {
+          return merchants[merchant].token 
+        }
+      }
+    }
+  }
 }
 
 module.exports = app
