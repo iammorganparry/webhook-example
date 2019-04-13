@@ -14,7 +14,31 @@ html(lang="en")
 				link(rel="stylesheet",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
 	body(data-spy="scroll",data-target=".scrollspy")
 		block body
-			
+
 		block scripts
 			script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
 			script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
+			script.
+				(function(d, s, id){
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) {return;}
+					js = d.createElement(s); js.id = id;
+					js.src = "https://connect.facebook.net/en_US/sdk.js";
+					fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'))
+					window.fbAsyncInit = function() {
+						FB.init({
+						appId      : '1251666588315299',
+						cookie     : true,
+						xfbml      : true,
+						version    : 'v3.2'
+						})
+
+						FB.AppEvents.logPageView()
+						FB.getLoginStatus(function(response) {
+						console.log(response)
+						//- statusChangeCallback(response);
+						});
+						}
+						//- function checkLoginState() {
+					//- }
