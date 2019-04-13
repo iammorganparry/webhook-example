@@ -132,9 +132,6 @@ function buildTemplate (sender_psid, template_object) {
                   payload:"Thank You"
                 }              
               ]      
-            },
-            {
-              title: template_object.discount_code
             }
           ] 
           }
