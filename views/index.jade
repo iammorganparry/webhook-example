@@ -58,6 +58,11 @@ block body
         style="overflow:visible !important;" 
         size="large")
     hr
+    .col-md-12
+      fb:login-button(
+      scope="public_profile,email"
+      onlogin="checkLoginState();")
+
 footer
   p © Company 2014
   block content
