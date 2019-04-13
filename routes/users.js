@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const bodyParser = require('body-parser')
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -7,7 +9,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', (req, res, next) => {
-  res.send('Posting to users')
+  let body = req.body
+  res.send(body)
+
 })
 
 module.exports = router;
