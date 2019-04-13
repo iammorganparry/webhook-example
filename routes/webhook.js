@@ -103,10 +103,10 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 async function callSendAPI(sender_psid, response) {
     let request_body = {
-        recipient: {
-            id: sender_psid
+        "recipient": {
+            "id": sender_psid
         },
-        message: response
+        "message": response
     }
   try {
     const response = await axios.post(`https://graph.facebook.com/v2.6/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, request_body)
