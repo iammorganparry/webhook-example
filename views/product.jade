@@ -1,0 +1,29 @@
+extends _bootstrap
+
+block body
+    .jumbotron
+        .container
+            .starter-template
+                    h1 #{title}
+    .container
+        .row
+            .col-md-6
+                img.img-responsive(src="https://images.unsplash.com/photo-1524383929211-97712cfbf809?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80", alt="", srcset="")
+            .col-md-6
+                h2 Sunglasses
+                p Super cool glasses for sale real cheap
+                h3.text-right(style="font-size: 4rem;") £100
+                input.input-group.qty.form-control(type="number", value="1")
+                br
+                button.btn.btn-lg.btn-primary.btn-block.disabled(type='button') Buy Now
+                br
+                p Or save this for later via Facebook
+                br
+                div(class="fb-send-to-messenger" 
+                messenger_app_id="1251666588315299" 
+                page_id="319569718706723"
+                cta_text="RECEIVE_THIS_IN_MESSENGER" 
+                data-ref="0001" 
+                color="blue"
+                style="overflow:visible !important;" 
+                size="xlarge")
