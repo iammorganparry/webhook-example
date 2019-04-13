@@ -33,10 +33,9 @@ app.post('/', (req, res) => {
 
         if (webhook_event.message) {
             handleMessage(sender_psid, webhook_event.message)
-        } 
-        // else if (webhook_event.postback) {
-        //     handlePostback(sender_psid, webhook_event.postback)
-        // }
+        } else if (webhook_event.postback) {
+            handlePostback(sender_psid, webhook_event.postback)
+        }
     });
 
     // Returns a '200 OK' response to all requests
@@ -97,7 +96,14 @@ function handleMessage(sender_psid, received_message) {
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
-
+  let payload = received_postback.payload
+  let response = {}
+  if (payload === 'Thank You') {
+    response = {
+      text: 'Enjoy your discount! Buy responsibly ;)'
+    }
+  }
+  callSendAPI(sender_psid, response)
 }
 
 // Sends response messages via the Send API
@@ -114,19 +120,6 @@ async function callSendAPI(sender_psid, response) {
   } catch (error) {
     console.log(error)
   }
-
-    // request({
-    //     "uri": "https://graph.facebook.com/v2.6/me/messages",
-    //     "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    //     "method": "POST",
-    //     "json": request_body
-    //   }, (err, res, body) => {
-    //     if (!err) {
-    //       console.log('message sent!')
-    //     } else {
-    //       console.error("Unable to send message:" + err);
-    //     }  
-    // })
 }
 
 module.exports = app
