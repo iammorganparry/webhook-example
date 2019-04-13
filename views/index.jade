@@ -15,26 +15,42 @@ block body
         p
           | Send your discount code to Facebook Messenger!
         //- fb:login-button(scope="public_profile,email" onlogin="checkLoginState();") Login With Facebook
-          
+
         div(class="fb-send-to-messenger" 
         messenger_app_id="1251666588315299" 
-        page_id="1234"
+        page_id="1015369635334404"
         cta_text="SEND_THIS_TO_ME" 
-        data-ref="&merchantId=1234" 
-        color="blue" 
-        size="standard")
+        data-ref="" 
+        color="blue"
+        style="overflow:visible !important;" 
+        size="large")
       .col-md-4
         h2 Lukes FINE Wares
         p
           | Send your discount code to Facebook Messenger!
         p
-          a.btn.btn-default(href='#', role='button') Send To Messenger  »
+          div(class="fb-send-to-messenger" 
+        messenger_app_id="1251666588315299" 
+        page_id="1015369635334404"
+        cta_text="SEND_THIS_TO_ME" 
+        data-ref="" 
+        color="blue"
+        style="overflow:visible !important;" 
+        size="large")
       .col-md-4
         h2 Chris' Smoke Shack
         p
           | Send your discount code to Facebook Messenger!
         p
-          a.btn.btn-default(href='#', role='button') Send To Messenger »
+          //- facebook page id = page_id
+        div(class="fb-send-to-messenger" 
+        messenger_app_id="1251666588315299" 
+        page_id="1015369635334404"
+        cta_text="SEND_THIS_TO_ME" 
+        data-ref="" 
+        color="blue"
+        style="overflow:visible !important;" 
+        size="large")
     hr
 footer
   p © Company 2014

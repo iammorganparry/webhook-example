@@ -35,6 +35,8 @@ app.post('/', (req, res) => {
             handleMessage(sender_psid, webhook_event.message)
         } else if (webhook_event.postback) {
             handlePostback(sender_psid, webhook_event.postback)
+        } else if (webhook_event.message_optin) {
+          handleDiscountCodeMessage(sender_psid, webhook_event.message_optin)
         }
     });
 
@@ -120,6 +122,17 @@ async function callSendAPI(sender_psid, response) {
   } catch (error) {
     console.log(error)
   }
+}
+
+async function handleDiscountCodeMessage (sender_psid, response) {
+  let response 
+    if (received_message.text) {
+        response = {
+            "text": `Hello World! You sent me ${received_message.text}`
+        }
+    }
+
+    callSendAPI(sender_psid, response)
 }
 
 module.exports = app
